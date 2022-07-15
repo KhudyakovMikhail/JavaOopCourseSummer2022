@@ -8,11 +8,11 @@ public class RangeMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        Range range1 = new Range(-9.7, 14.9);
+        Range range = new Range(-9.7, 14.9);
 
-        double range1Length = range1.getLength();
+        double range1Length = range.getLength();
 
-        System.out.println("Начало диапазона: " + range1.getFrom() + ", Конец диапазона: " + range1.getTo());
+        System.out.println("Начало диапазона: " + range.getFrom() + ", Конец диапазона: " + range.getTo());
         System.out.println("Длина диапазона составляет: " + range1Length);
 
         while (true) {
@@ -20,7 +20,7 @@ public class RangeMain {
 
             double number = scanner.nextDouble();
 
-            if (range1.isInside(number)) {
+            if (range.isInside(number)) {
                 System.out.println("Введенное число лежит внутри диапазона");
                 break;
             }
@@ -31,12 +31,12 @@ public class RangeMain {
         System.out.println();
 
         System.out.println("Введите новое начало диапазона:");
-        range1.setFrom(scanner.nextDouble());
+        range.setFrom(scanner.nextDouble());
 
         System.out.println("Введите новый конец диапазона");
-        range1.setTo(scanner.nextDouble());
+        range.setTo(scanner.nextDouble());
 
-        System.out.println("Теперь начало диапазона: " + range1.getFrom() + ", Конец диапазона: " + range1.getTo());
-        System.out.println("Длина диапазона составляет: " + range1.getLength());
+        System.out.println("Теперь начало диапазона: " + range.getFrom() + ", Конец диапазона: " + range.getTo());
+        System.out.println("Длина диапазона составляет: " + range.getLength());
     }
 }
