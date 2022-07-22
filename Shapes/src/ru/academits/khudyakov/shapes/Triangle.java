@@ -1,6 +1,6 @@
 package ru.academits.khudyakov.shapes;
 
-public class Triangle implements Shape{
+public class Triangle implements Shape {
 
     private final double x1;
     private final double y1;
@@ -47,9 +47,15 @@ public class Triangle implements Shape{
     }
 
     public double getPerimeter() {
+        final double EPSILON = 1.0e-10;
+
         double lengthAB = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
         double lengthBC = Math.sqrt((x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2));
         double lengthAC = Math.sqrt((x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1));
+
+        if (Math.abs((x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1)) <= EPSILON) {
+            return (lengthAB + lengthBC + lengthAC) / 2;
+        }
 
         return lengthAB + lengthBC + lengthAC;
     }

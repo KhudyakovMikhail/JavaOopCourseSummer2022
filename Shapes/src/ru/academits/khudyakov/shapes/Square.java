@@ -1,6 +1,6 @@
 package ru.academits.khudyakov.shapes;
 
-public class Square implements Shape{
+public class Square implements Shape {
     private final double sideLength;
 
     public Square(double sideLength) {

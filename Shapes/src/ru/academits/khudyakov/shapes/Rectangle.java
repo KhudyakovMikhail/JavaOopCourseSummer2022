@@ -1,6 +1,6 @@
 package ru.academits.khudyakov.shapes;
 
-public class Rectangle implements Shape{
+public class Rectangle implements Shape {
     private final double width;
     private final double height;
 
