@@ -24,4 +24,10 @@ public class Rectangle implements Shape {
     public double getPerimeter() {
         return 2 * (width + height);
     }
+
+    @Override
+    public String toString() {
+        return "Ширина прямоугольника = " + width + " Высота прямоугольника = " + height +
+                " Площадь прямоугольника = " + String.format("%.3f", getArea()) + " Периметр прямоугольника = " + String.format("%.3f", getPerimeter());
+    }
 }
