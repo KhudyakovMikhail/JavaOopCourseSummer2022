@@ -2,7 +2,7 @@ package ru.academits.khudyakov.shapes;
 
 public class Square implements Shape {
     private final double sideLength;
-    static final int SQUARE_SIDES_COUNT = 4;
+    private static final int SIDES_COUNT = 4;
 
     public Square(double sideLength) {
         this.sideLength = sideLength;
@@ -12,24 +12,52 @@ public class Square implements Shape {
         return sideLength;
     }
 
+    @Override
     public double getWidth() {
         return sideLength;
     }
 
+    @Override
     public double getHeight() {
         return sideLength;
     }
 
+    @Override
     public double getArea() {
         return sideLength * sideLength;
     }
 
+    @Override
     public double getPerimeter() {
-        return SQUARE_SIDES_COUNT * sideLength;
+        return SIDES_COUNT * sideLength;
     }
 
     @Override
     public String toString() {
-        return "Сторона квадрата = " + sideLength + " Площадь квадрата = " + String.format("%.3f", getArea()) + " Периметр квадрата = " + String.format("%.3f", getPerimeter());
+        return String.format("Фигура - квадрат Сторона = %f Площадь = %.3f Периметр = %.3f", sideLength, getArea(), getPerimeter());
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (object == null || object.getClass() != getClass()) {
+            return false;
+        }
+
+        Square square = (Square) object;
+
+        return sideLength == square.sideLength;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 37;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(sideLength);
+
+        return hash;
     }
 }

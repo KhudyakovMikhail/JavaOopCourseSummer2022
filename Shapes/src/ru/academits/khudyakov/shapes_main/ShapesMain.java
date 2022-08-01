@@ -3,12 +3,23 @@ package ru.academits.khudyakov.shapes_main;
 import ru.academits.khudyakov.shapes.*;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class ShapesMain {
     public static void main(String[] args) {
-        Shape[] shapes = {new Square(4), new Rectangle(2, 8), new Circle(2.4), new Triangle(0, 1, 2, 1, 4, 2), new Rectangle(3, 5),
-                new Triangle(-1, -1, 2, -4, 3, 4), new Square(3), new Circle(2), new Triangle(-1, 1, 2, 1, 4, 1)};
+        Shape[] shapes = {
+                new Square(4),
+                new Rectangle(2, 8),
+                new Circle(2.4),
+                new Triangle(0, 1, 2, 1, 4, 2),
+                new Triangle(2, 1, 4, 2, 0, 1),
+                new Rectangle(3, 5),
+                new Triangle(-1, -1, 2, -4, 3, 4),
+                new Square(3),
+                new Circle(2),
+                new Triangle(-1, 1, 2, 1, 4, 1),
+
+                new Rectangle(8, 2)
+        };
 
         for (Shape shape : shapes) {
             System.out.println(shape);
@@ -16,23 +27,41 @@ public class ShapesMain {
 
         System.out.println();
 
+        System.out.println(shapes[3].equals(shapes[4]));
+
+        System.out.println(shapes[3].hashCode() + " " + shapes[4].hashCode());
+
         System.out.println("Фигура с максимальной площадью: " + getMaxAreaShape(shapes));
         System.out.println("Фигура со вторым периметром: " + getSecondPerimeterShape(shapes));
     }
 
     public static Shape getMaxAreaShape(Shape[] shapes) {
-        Comparator<Shape> areaComparator = new AreaComparator();
+        if (shapes.length == 0) {
+            return null;
+        }
 
-        Arrays.sort(shapes, areaComparator);
+        int arrayLength = shapes.length;
 
-        return shapes[shapes.length - 1];
+        Shape[] sortedArray = new Shape[arrayLength];
+        System.arraycopy(shapes, 0, sortedArray, 0, arrayLength);
+
+        Arrays.sort(sortedArray, new AreaComparator());
+
+        return sortedArray[shapes.length - 1];
     }
 
     public static Shape getSecondPerimeterShape(Shape[] shapes) {
-        Comparator<Shape> perimeterComparator = new PerimeterComparator();
+        if (shapes.length == 0) {
+            return null;
+        }
 
-        Arrays.sort(shapes, perimeterComparator);
+        int arrayLength = shapes.length;
 
-        return shapes[shapes.length - 2];
+        Shape[] sortedArray = new Shape[arrayLength];
+        System.arraycopy(shapes, 0, sortedArray, 0, arrayLength);
+
+        Arrays.sort(sortedArray, new PerimeterComparator());
+
+        return sortedArray[shapes.length - 2];
     }
 }

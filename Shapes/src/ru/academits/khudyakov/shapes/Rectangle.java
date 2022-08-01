@@ -9,25 +9,53 @@ public class Rectangle implements Shape {
         this.height = height;
     }
 
+    @Override
     public double getWidth() {
         return width;
     }
 
+    @Override
     public double getHeight() {
         return height;
     }
 
+    @Override
     public double getArea() {
         return width * height;
     }
 
+    @Override
     public double getPerimeter() {
         return 2 * (width + height);
     }
 
     @Override
     public String toString() {
-        return "Ширина прямоугольника = " + width + " Высота прямоугольника = " + height +
-                " Площадь прямоугольника = " + String.format("%.3f", getArea()) + " Периметр прямоугольника = " + String.format("%.3f", getPerimeter());
+        return String.format("Фигура - прямоугольник Ширина = %f Высота = %f Площадь = %.3f Периметр = %.3f", width, height, getArea(), getPerimeter());
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (object == null || object.getClass() != getClass()) {
+            return false;
+        }
+
+        Rectangle rectangle = (Rectangle) object;
+
+        return width == rectangle.width && height == rectangle.height;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 37;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(width);
+        hash = prime * hash + Double.hashCode(height);
+
+        return hash;
     }
 }
