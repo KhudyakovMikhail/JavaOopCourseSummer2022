@@ -23,6 +23,7 @@ public class Vector {
         if (components.length <= 0) {
             throw new IllegalArgumentException("Размерность вектора \"" + components.length + "\" должна быть > 0");
         }
+
         this.components = Arrays.copyOf(components, components.length);
     }
 
