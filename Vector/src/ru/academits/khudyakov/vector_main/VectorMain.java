@@ -18,7 +18,7 @@ public class VectorMain {
 
         System.out.println("Размерность вектора 6: " + vector6.getSize());
 
-        vector2.setComponent(2, -3);
+        vector2.setComponent(0, -3);
         vector2.setComponent(1, 2);
         System.out.println("Компоненты вектора 2: {" + vector2.getComponent(0) + ", " + vector2.getComponent(1) + "}");
         System.out.println("Длинна вектора 2: " + vector2.getLength());
