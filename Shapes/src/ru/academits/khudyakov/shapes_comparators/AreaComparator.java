@@ -1,4 +1,4 @@
-package ru.academits.khudyakov.comparators;
+package ru.academits.khudyakov.shapes_comparators;
 
 import ru.academits.khudyakov.shapes.Shape;
 

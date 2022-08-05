@@ -1,4 +1,4 @@
-package ru.academits.khudyakov.comparator;
+package ru.academits.khudyakov.matrix_comparators;
 
 import java.util.Comparator;
 

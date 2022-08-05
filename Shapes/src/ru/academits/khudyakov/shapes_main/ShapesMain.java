@@ -1,7 +1,7 @@
 package ru.academits.khudyakov.shapes_main;
 
-import ru.academits.khudyakov.comparators.AreaComparator;
-import ru.academits.khudyakov.comparators.PerimeterComparator;
+import ru.academits.khudyakov.shapes_comparators.AreaComparator;
+import ru.academits.khudyakov.shapes_comparators.PerimeterComparator;
 import ru.academits.khudyakov.shapes.*;
 
 import java.util.Arrays;

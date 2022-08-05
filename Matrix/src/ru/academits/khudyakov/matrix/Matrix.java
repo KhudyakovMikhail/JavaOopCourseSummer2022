@@ -1,7 +1,7 @@
 package ru.academits.khudyakov.matrix;
 
-import ru.academits.khudyakov.comparator.ArraysLengthComparator;
-import ru.academits.khudyakov.comparator.VectorsLengthComparator;
+import ru.academits.khudyakov.matrix_comparators.ArraysLengthComparator;
+import ru.academits.khudyakov.matrix_comparators.VectorsLengthComparator;
 import ru.academits.khudyakov.vector.Vector;
 
 import java.util.Arrays;
