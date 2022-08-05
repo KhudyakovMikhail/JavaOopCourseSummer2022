@@ -1,5 +1,7 @@
 package ru.academits.khudyakov.shapes_main;
 
+import ru.academits.khudyakov.comparators.AreaComparator;
+import ru.academits.khudyakov.comparators.PerimeterComparator;
 import ru.academits.khudyakov.shapes.*;
 
 import java.util.Arrays;
@@ -17,8 +19,6 @@ public class ShapesMain {
                 new Square(3),
                 new Circle(2),
                 new Triangle(-1, 1, 2, 1, 4, 1),
-
-                new Rectangle(8, 2)
         };
 
         for (Shape shape : shapes) {
@@ -26,10 +26,6 @@ public class ShapesMain {
         }
 
         System.out.println();
-
-        System.out.println(shapes[3].equals(shapes[4]));
-
-        System.out.println(shapes[3].hashCode() + " " + shapes[4].hashCode());
 
         System.out.println("Фигура с максимальной площадью: " + getMaxAreaShape(shapes));
         System.out.println("Фигура со вторым периметром: " + getSecondPerimeterShape(shapes));
@@ -40,10 +36,7 @@ public class ShapesMain {
             return null;
         }
 
-        int arrayLength = shapes.length;
-
-        Shape[] sortedArray = new Shape[arrayLength];
-        System.arraycopy(shapes, 0, sortedArray, 0, arrayLength);
+        Shape[] sortedArray = Arrays.copyOf(shapes, shapes.length);
 
         Arrays.sort(sortedArray, new AreaComparator());
 
@@ -51,14 +44,11 @@ public class ShapesMain {
     }
 
     public static Shape getSecondPerimeterShape(Shape[] shapes) {
-        if (shapes.length == 0) {
+        if (shapes.length <= 1) {
             return null;
         }
 
-        int arrayLength = shapes.length;
-
-        Shape[] sortedArray = new Shape[arrayLength];
-        System.arraycopy(shapes, 0, sortedArray, 0, arrayLength);
+        Shape[] sortedArray = Arrays.copyOf(shapes, shapes.length);
 
         Arrays.sort(sortedArray, new PerimeterComparator());
 

@@ -103,7 +103,7 @@ public class Triangle implements Shape {
 
         Triangle triangle = (Triangle) object;
 
-        return (x1 == triangle.x1 && y1 == triangle.y1 && x2 == triangle.x2 && y2 == triangle.y2 && x3 == triangle.x3 && y3 == triangle.y3);
+        return x1 == triangle.x1 && y1 == triangle.y1 && x2 == triangle.x2 && y2 == triangle.y2 && x3 == triangle.x3 && y3 == triangle.y3;
     }
 
     @Override

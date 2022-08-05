@@ -1,4 +1,6 @@
-package ru.academits.khudyakov.shapes;
+package ru.academits.khudyakov.comparators;
+
+import ru.academits.khudyakov.shapes.Shape;
 
 import java.util.Comparator;
 
