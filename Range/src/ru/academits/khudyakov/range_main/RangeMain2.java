@@ -3,25 +3,22 @@ package ru.academits.khudyakov.range_main;
 import ru.academits.khudyakov.range.Range;
 
 public class RangeMain2 {
-    public static String printRangeArray(Range[] ranges) {
-        int iMax = ranges.length - 1;
-
-        if (iMax == -1) {
+    public static String printRangesArray(Range[] ranges) {
+        if (ranges.length == 0) {
             return "[]";
         }
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append('[');
 
-        for (int i = 0; ; i++) {
-            stringBuilder.append(ranges[i]);
-
-            if (i == iMax) {
-                return stringBuilder.append(']').toString();
-            }
-
-            stringBuilder.append(", ");
+        for (Range range : ranges) {
+            stringBuilder.append(range).append(", ");
         }
+
+        stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
+        stringBuilder.append(']');
+
+        return stringBuilder.toString();
     }
 
     public static void main(String[] args) {
@@ -39,20 +36,20 @@ public class RangeMain2 {
         System.out.println("Пересечение диапазонов 2 и 3: " + range2.getIntersection(range3));
         System.out.println();
 
-        System.out.println("Объединение диапазонов 1 и 1: " + printRangeArray(range1.getUnion(range1)));
-        System.out.println("Объединение диапазонов 1 и 2: " + printRangeArray(range1.getUnion(range2)));
-        System.out.println("Объединение диапазонов 1 и 3: " + printRangeArray(range1.getUnion(range3)));
-        System.out.println("Объединение диапазонов 1 и 4: " + printRangeArray(range1.getUnion(range4)));
-        System.out.println("Объединение диапазонов 1 и 5: " + printRangeArray(range1.getUnion(range5)));
-        System.out.println("Объединение диапазонов 2 и 3: " + printRangeArray(range2.getUnion(range3)));
+        System.out.println("Объединение диапазонов 1 и 1: " + printRangesArray(range1.getUnion(range1)));
+        System.out.println("Объединение диапазонов 1 и 2: " + printRangesArray(range1.getUnion(range2)));
+        System.out.println("Объединение диапазонов 1 и 3: " + printRangesArray(range1.getUnion(range3)));
+        System.out.println("Объединение диапазонов 1 и 4: " + printRangesArray(range1.getUnion(range4)));
+        System.out.println("Объединение диапазонов 1 и 5: " + printRangesArray(range1.getUnion(range5)));
+        System.out.println("Объединение диапазонов 2 и 3: " + printRangesArray(range2.getUnion(range3)));
         System.out.println();
 
-        System.out.println("Разность диапазонов 1 и 1: " + printRangeArray(range1.getDifference(range1)));
-        System.out.println("Разность диапазонов 1 и 2: " + printRangeArray(range1.getDifference(range2)));
-        System.out.println("Разность диапазонов 1 и 3: " + printRangeArray(range1.getDifference(range3)));
-        System.out.println("Разность диапазонов 1 и 5: " + printRangeArray(range1.getDifference(range5)));
-        System.out.println("Разность диапазонов 2 и 3: " + printRangeArray(range2.getDifference(range3)));
-        System.out.println("Разность диапазонов 2 и 4: " + printRangeArray(range2.getDifference(range4)));
-        System.out.println("Разность диапазонов 1 и 4: " + printRangeArray(range1.getDifference(range4)));
+        System.out.println("Разность диапазонов 1 и 1: " + printRangesArray(range1.getDifference(range1)));
+        System.out.println("Разность диапазонов 1 и 2: " + printRangesArray(range1.getDifference(range2)));
+        System.out.println("Разность диапазонов 1 и 3: " + printRangesArray(range1.getDifference(range3)));
+        System.out.println("Разность диапазонов 1 и 5: " + printRangesArray(range1.getDifference(range5)));
+        System.out.println("Разность диапазонов 2 и 3: " + printRangesArray(range2.getDifference(range3)));
+        System.out.println("Разность диапазонов 2 и 4: " + printRangesArray(range2.getDifference(range4)));
+        System.out.println("Разность диапазонов 1 и 4: " + printRangesArray(range1.getDifference(range4)));
     }
 }
