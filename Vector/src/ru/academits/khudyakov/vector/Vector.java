@@ -28,7 +28,7 @@ public class Vector {
     }
 
     public Vector(int dimension, double[] components) {
-        if (dimension <= 0 || components.length <= 0) {
+        if (dimension <= 0) { //|| components.length <= 0) { здесь может пусть будет массив длины 0?
             throw new IllegalArgumentException("Размерность вектора \"" + dimension + "\" должна быть > 0");
         }
 
