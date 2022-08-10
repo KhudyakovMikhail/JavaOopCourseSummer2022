@@ -26,7 +26,7 @@ public class VectorMain {
         vector3.add(vector4);
         System.out.println("Прибавили к вектору 3 вектор 4: " + vector3);
 
-        System.out.println("Складываем вектора 4 и 3:" + Vector.getSum(vector4, vector3));
+        System.out.println("Складываем вектора 4 и 3: " + Vector.getSum(vector4, vector3));
 
         vector4.subtract(vector5);
         System.out.println("Вычли из вектора 4 вектор 5: " + vector4);
@@ -36,7 +36,7 @@ public class VectorMain {
         vector5.subtract(vector4);
         System.out.println("Вычли из вектора 5 вектор 4: " + vector5);
 
-        vector4.multiplyOnScalar(0.5);
+        vector4.multiplyByScalar(0.5);
         System.out.println("Умножили вектор 4 на 0.5: " + vector4);
 
         vector6.revert();
