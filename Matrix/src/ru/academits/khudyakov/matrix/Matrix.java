@@ -31,7 +31,7 @@ public class Matrix {
     }
 
     public Matrix(double[][] array) {
-        if (array.length <= 0) {
+        if (array.length == 0) {
             throw new IllegalArgumentException("Длина массива должна быть > 0");
         }
 
@@ -58,8 +58,8 @@ public class Matrix {
     }
 
     public Matrix(Vector[] vectors) {
-        if (vectors.length <= 0) {
-            throw new IllegalArgumentException("Длина массива векторов должна быть 0; Длина массива: " + vectors.length);
+        if (vectors.length == 0) {
+            throw new IllegalArgumentException("Длина массива векторов должна быть > 0; Длина массива: " + vectors.length);
         }
         rows = new Vector[vectors.length];
 
@@ -150,7 +150,7 @@ public class Matrix {
 
     public void multiplyOnScalar(double scalar) {
         for (Vector row : rows) {
-            row.multiplyOnScalar(scalar);
+            row.multiplyByScalar(scalar);
         }
     }
 
