@@ -95,7 +95,7 @@ public class Vector {
                 components[i] -= vector.components[i];
             } else {
                 if (vector.components.length > components.length) {
-                    components[i] = - vector.components[i];
+                    components[i] = -vector.components[i];
                 }
             }
         }
