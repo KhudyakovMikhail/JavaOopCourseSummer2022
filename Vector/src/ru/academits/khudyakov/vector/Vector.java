@@ -42,7 +42,7 @@ public class Vector {
             throw new IndexOutOfBoundsException("Значение \"" + index + "\" выходит за границы массива. Значение индекса должно быть >= 0 и < " + components.length);
         }
 
-        return this.components[index];
+        return components[index];
     }
 
     public void setComponent(int index, double value) {
@@ -64,37 +64,41 @@ public class Vector {
     }
 
     public void add(Vector vector) {
-        double[] resultComponents;
+        int lesserSize = Math.min(components.length, vector.components.length);
+        int greaterSize = Math.max(components.length, vector.components.length);
+
+        Vector greaterVector = (components.length >= vector.components.length) ? this : vector;
 
         if (vector.components.length > components.length) {
-            resultComponents = Arrays.copyOf(components, vector.components.length);
-        } else {
-            resultComponents = components;
-            vector.components = Arrays.copyOf(vector.components, components.length);
+            components = Arrays.copyOf(components, vector.components.length);
         }
 
-        for (int i = 0; i < resultComponents.length; i++) {
-            resultComponents[i] += vector.components[i];
+        for (int i = 0; i < greaterSize; i++) {
+            if (i < lesserSize) {
+                components[i] += vector.components[i];
+            } else {
+                components[i] = greaterVector.components[i];
+            }
         }
-
-        components = resultComponents;
     }
 
     public void subtract(Vector vector) {
-        double[] resultComponents;
+        int lesserSize = Math.min(components.length, vector.components.length);
+        int greaterSize = Math.max(components.length, vector.components.length);
 
         if (vector.components.length > components.length) {
-            resultComponents = Arrays.copyOf(components, vector.components.length);
-        } else {
-            resultComponents = components;
-            vector.components = Arrays.copyOf(vector.components, components.length);
+            components = Arrays.copyOf(components, vector.components.length);
         }
 
-        for (int i = 0; i < resultComponents.length; i++) {
-            resultComponents[i] -= vector.components[i];
+        for (int i = 0; i < greaterSize; i++) {
+            if (i < lesserSize) {
+                components[i] -= vector.components[i];
+            } else {
+                if (vector.components.length > components.length) {
+                    components[i] = - vector.components[i];
+                }
+            }
         }
-
-        components = resultComponents;
     }
 
     public void multiplyByScalar(double scalar) {
