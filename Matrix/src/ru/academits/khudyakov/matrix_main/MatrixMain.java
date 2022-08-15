@@ -3,8 +3,6 @@ package ru.academits.khudyakov.matrix_main;
 import ru.academits.khudyakov.matrix.Matrix;
 import ru.academits.khudyakov.vector.Vector;
 
-import java.util.Arrays;
-
 public class MatrixMain {
     public static void main(String[] args) {
         Matrix matrix1 = new Matrix(2, 4);
@@ -16,9 +14,9 @@ public class MatrixMain {
         matrix1.setRow(1, new Vector(new double[]{2, 3, 4, 5}));
         System.out.println("Матрица 1 " + matrix1);
 
-        System.out.println("Достаем столбец по индексу 1 " + Arrays.toString(matrix1.getColumn(1)));
+        System.out.println("Достаем столбец по индексу 1 " + matrix1.getColumn(1));
 
-        matrix1.multiplyOnScalar(2);
+        matrix1.multiplyByScalar(2);
         System.out.println("Умножаем матрицу 1 на 2 " + matrix1);
 
         matrix1.transpose();
@@ -69,7 +67,12 @@ public class MatrixMain {
                 new Vector(new double[]{4, 5, 6}),
         });
 
-        System.out.println(matrix5);
+        System.out.println("Выводим строки матрицы 5 в консоль:");
+
+        for (int i = 0; i < matrix5.getRowsCount(); i++) {
+            System.out.println(matrix5.getRow(i));
+        }
+
         System.out.println();
 
         Matrix matrix6 = new Matrix(new double[][]{
@@ -91,7 +94,7 @@ public class MatrixMain {
         });
 
         Vector vector1 = new Vector(new double[]{1, 2, -1});
-        System.out.println("Умножаем матрицу 7 на вектор " + matrix7.multiplyOnVector(vector1));
+        System.out.println("Умножаем матрицу 7 на вектор " + matrix7.multiplyByVector(vector1));
         System.out.println();
 
         Matrix matrix8 = new Matrix(new double[][]{
