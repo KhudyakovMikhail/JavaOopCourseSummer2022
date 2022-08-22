@@ -19,9 +19,9 @@ public class Matrix {
     }
 
     public Matrix(Matrix matrix) {
-        rows = new Vector[matrix.rows.length];
+        rows = new Vector[matrix.getRowsCount()];
 
-        for (int i = 0; i < matrix.rows.length; i++) {
+        for (int i = 0; i < rows.length; i++) {
             rows[i] = new Vector(matrix.rows[i]);
         }
     }
