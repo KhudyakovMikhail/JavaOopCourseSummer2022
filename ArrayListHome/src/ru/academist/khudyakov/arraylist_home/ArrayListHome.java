@@ -47,8 +47,8 @@ public class ArrayListHome {
 
     public static void main(String[] args) {
         try {
-            ArrayList<String> fileStrings = getFileLines("ArrayListHomeInput.txt");
-            System.out.println("Строки файла: " + fileStrings);
+            ArrayList<String> fileLines = getFileLines("ArrayListHomeInput.txt");
+            System.out.println("Строки файла: " + fileLines);
         } catch (FileNotFoundException e) {
             System.out.println("Файл не найден.");
         } catch (IOException e) {
