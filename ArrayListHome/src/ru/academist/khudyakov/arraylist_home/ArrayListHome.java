@@ -1,23 +1,24 @@
 package ru.academist.khudyakov.arraylist_home;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class ArrayListHome {
-    public static ArrayList<String> getFileLines(String fileName) throws FileNotFoundException {
-        try (Scanner scanner = new Scanner(new FileInputStream(fileName))) {
+    public static ArrayList<String> getFileLines(String fileName) throws IOException {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
             ArrayList<String> lines = new ArrayList<>();
-            while (scanner.hasNextLine()) {
-                lines.add(scanner.nextLine());
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                lines.add(line);
             }
 
             return lines;
         }
     }
-
 
     public static void deleteEvenNumbers(ArrayList<Integer> list) {
         int i = 0;
@@ -47,7 +48,7 @@ public class ArrayListHome {
         try {
             ArrayList<String> fileStrings = getFileLines("ArrayListHomeInput.txt");
             System.out.println("Строки файла: " + fileStrings);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("Файл не найден.");
         }
 
