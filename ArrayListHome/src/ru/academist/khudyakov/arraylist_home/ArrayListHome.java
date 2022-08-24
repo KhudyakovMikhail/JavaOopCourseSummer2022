@@ -1,6 +1,7 @@
 package ru.academist.khudyakov.arraylist_home;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,8 +49,10 @@ public class ArrayListHome {
         try {
             ArrayList<String> fileStrings = getFileLines("ArrayListHomeInput.txt");
             System.out.println("Строки файла: " + fileStrings);
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("Файл не найден.");
+        } catch (IOException e) {
+            System.out.println("Ошибка ввода/вывода.");
         }
 
         System.out.println();
