@@ -255,14 +255,14 @@ public class Matrix {
         int resultRowsCount = matrix1.getRowsCount();
         int resultColumnsCount = matrix2.getColumnsCount();
 
-        double[][] resultValues = new double[resultRowsCount][resultColumnsCount];
+        double[][] resultMatrixCoefficients = new double[resultRowsCount][resultColumnsCount];
 
         for (int i = 0; i < resultRowsCount; i++) {
             for (int j = 0; j < resultColumnsCount; j++) {
-                resultValues[i][j] = Vector.getScalarProduct(matrix1.rows[i], matrix2.getColumn(j));
+                resultMatrixCoefficients[i][j] = Vector.getScalarProduct(matrix1.rows[i], matrix2.getColumn(j));
             }
         }
 
-        return new Matrix(resultValues);
+        return new Matrix(resultMatrixCoefficients);
     }
 }
