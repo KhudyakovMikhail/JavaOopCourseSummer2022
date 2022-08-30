@@ -121,11 +121,6 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public <T> T[] toArray(T[] a) {
-        if (a.length < size) {
-            //noinspection unchecked
-            return (T[]) Arrays.copyOf(items, size);
-        }
-
         //noinspection unchecked
         return (T[]) Arrays.copyOf(items, size);
     }
@@ -254,6 +249,10 @@ public class MyArrayList<E> implements List<E> {
     @Override
     public void add(int index, E element) {
         checkIndexCorrectness(index);
+
+        if (size == items.length) {
+            increaseCapacity();
+        }
 
         System.arraycopy(items, index, items, index + 1, size - index);
 
