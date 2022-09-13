@@ -2,33 +2,32 @@ package ru.academits.khudyakov.list_main;
 
 import ru.academits.khudyakov.list.SinglyLinkedList;
 
-import java.util.SortedMap;
-
 public class SinglyLinkedListMain {
     public static void main(String[] args) {
         SinglyLinkedList<String> list = new SinglyLinkedList<>();
 
-        list.removeHead();
-
         System.out.println(list);
 
-        list.add("35");
-        System.out.println("Первый элемент списка: " + list.getHead() + "; число элементов в списке = " + list.getCount());
+        list.addFirst("35");
+        System.out.println("Первый элемент списка: " + list.getFirst() + "; число элементов в списке = " + list.getCount());
 
         String changedItem = "3";
         System.out.println("Меняем значение элемента под индексом 0 - " + list.set(0, changedItem) + " на " + changedItem);
 
-        list.add("2");
+        list.addFirst("2");
         System.out.println("Первый элемент списка: " + list.get(0) + "; второй элемент списка: " + list.get(1) + "; число элементов в списке = " + list.getCount());
 
-        list.add("1");
-        list.add("0");
+        list.addFirst("1");
+        list.addFirst("0");
         System.out.println("Элементы списка : " + list + "; число элементов в списке = " + list.getCount());
 
         System.out.println();
 
         list.add(1, null);
         System.out.println("Добавили элемент по индексу 1: " + list);
+
+        list.add(3, null);
+        System.out.println("Добавили элемент по индексу 3: " + list);
 
         System.out.println("Удаляем элемент по индексу 1: " + list.remove(1));
         System.out.println("Элементы списка: " + list);
