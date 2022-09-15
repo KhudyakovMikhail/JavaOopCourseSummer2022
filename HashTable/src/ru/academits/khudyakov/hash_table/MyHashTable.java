@@ -126,6 +126,7 @@ public class MyHashTable<T> implements Collection<T> {
         return array;
     }
 
+    // Здесь не сделано
     @Override
     public <T1> T1[] toArray(T1[] a) {
         Object[] hashTableArray = toArray();
