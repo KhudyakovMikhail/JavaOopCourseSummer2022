@@ -52,15 +52,15 @@ public class LambdasMain {
                 .average();
 
         System.out.println("ѕосчитать дл€ них средний возраст:");
-        System.out.println(youngerThan18PeoplesAverageAge);
+        youngerThan18PeoplesAverageAge.ifPresent(System.out::println);
         System.out.println();
 
         // √ при помощи группировки получить Map, в котором ключи - имена, а значени€ - средний возраст
-        Map<String, Double> averageAgeByNames = persons.stream()
+        Map<String, Double> averageAgesByNames = persons.stream()
                 .collect(Collectors.groupingBy(Person::getName, Collectors.averagingInt(Person::getAge)));
 
         System.out.println("ѕри помощи группировки получить Map, в котором ключи - имена, а значени€ - средний возраст:");
-        System.out.println(averageAgeByNames);
+        System.out.println(averageAgesByNames);
         System.out.println();
 
         // ƒ получить людей, возраст которых от 20 до 45, вывести в консоль их имена в пор€дке убывани€ возраста
