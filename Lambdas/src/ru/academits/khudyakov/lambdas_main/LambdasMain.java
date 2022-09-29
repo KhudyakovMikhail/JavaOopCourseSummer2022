@@ -52,7 +52,13 @@ public class LambdasMain {
                 .average();
 
         System.out.println("Посчитать для них средний возраст:");
-        youngerThan18PeoplesAverageAge.ifPresent(System.out::println);
+
+        if (youngerThan18PeoplesAverageAge.isPresent()) {
+            System.out.println(youngerThan18PeoplesAverageAge.getAsDouble());
+        } else {
+            System.out.println("Невозможно посчитать средний возраст");
+        }
+
         System.out.println();
 
         // Г при помощи группировки получить Map, в котором ключи - имена, а значения - средний возраст
