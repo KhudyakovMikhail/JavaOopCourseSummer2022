@@ -1,6 +1,7 @@
 package ru.academits.khudyakov.list;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
@@ -24,7 +25,7 @@ public class SinglyLinkedList<T> {
     public T get(int index) {
         checkIndex(index);
 
-        ListItem<T> listItem = getIndexItem(index);
+        ListItem<T> listItem = getItemByIndex(index);
 
         return listItem.getData();
     }
@@ -32,7 +33,7 @@ public class SinglyLinkedList<T> {
     public T set(int index, T data) {
         checkIndex(index);
 
-        ListItem<T> listItem = getIndexItem(index);
+        ListItem<T> listItem = getItemByIndex(index);
 
         T oldData = listItem.getData();
         listItem.setData(data);
@@ -52,17 +53,16 @@ public class SinglyLinkedList<T> {
 
         if (index == 0) {
             addFirst(data);
-        } else {
-            ListItem<T> current = head;
 
-            for (int i = 1; i < index; i++) {
-                current = current.getNext();
-            }
-
-            current.setNext(new ListItem<>(data, current.getNext()));
-
-            count++;
+            return;
         }
+
+        ListItem<T> previous = getItemByIndex(index - 1);
+
+        previous.setNext(new ListItem<>(data, previous.getNext()));
+
+        count++;
+
     }
 
     public T remove(int index) {
@@ -72,14 +72,10 @@ public class SinglyLinkedList<T> {
             return removeFirst();
         }
 
-        ListItem<T> current = head;
+        ListItem<T> previous = getItemByIndex(index - 1);
 
-        for (int i = 1; i < index; i++) {
-            current = current.getNext();
-        }
-
-        ListItem<T> removedItem = current.getNext();
-        current.setNext(current.getNext().getNext());
+        ListItem<T> removedItem = previous.getNext();
+        previous.setNext(previous.getNext().getNext());
 
         count--;
 
@@ -87,24 +83,8 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean remove(T data) {
-        if (data == null) {
-            for (ListItem<T> current = head, previous = null; current != null; previous = current, current = current.getNext()) {
-                if (current.getData() == null) {
-                    if (previous == null) {
-                        head = current.getNext();
-                    } else {
-                        previous.setNext(current.getNext());
-                    }
-
-                    break;
-                }
-            }
-
-            return true;
-        }
-
         for (ListItem<T> current = head, previous = null; current != null; previous = current, current = current.getNext()) {
-            if (data.equals(current.getData())) {
+            if (Objects.equals(data, current.getData())) {
                 if (previous == null) {
                     head = current.getNext();
                 } else {
@@ -150,18 +130,19 @@ public class SinglyLinkedList<T> {
         }
     }
 
+    // Не понимаю, как сделать копирование
+    // пытаюсь насоздавать новых ListItem и раскидать ссылки, но не получается
+    // дайте подсказку пожалуйста
+
     public SinglyLinkedList<T> copy() {
         if (count == 0) {
             return new SinglyLinkedList<>();
         }
 
         SinglyLinkedList<T> listCopy = new SinglyLinkedList<>();
-        int index = 0;
 
-        for (ListItem<T> current = head; current != null; current = current.getNext()) {
-            listCopy.add(index, current.getData());
-            index++;
-        }
+        listCopy.head = new ListItem<>(head.getData());
+        listCopy.count++;
 
         return listCopy;
     }
@@ -172,7 +153,7 @@ public class SinglyLinkedList<T> {
         }
     }
 
-    private ListItem<T> getIndexItem(int index) {
+    private ListItem<T> getItemByIndex(int index) {
         ListItem<T> listItem = head;
 
         for (int i = 0; i < index; i++) {
