@@ -28,7 +28,7 @@ public class MyArrayListMain {
 
         System.out.println("Список 3: " + list3);
 
-        list2.retainAll(list3);
+        System.out.println(list2.retainAll(list3));
         System.out.println("Список 2 содержащий элементы списка 3: " + list2);
     }
 }

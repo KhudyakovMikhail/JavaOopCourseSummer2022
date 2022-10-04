@@ -7,17 +7,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class MyArrayList<E> implements List<E> {
+    private static final int DEFAULT_CAPACITY = 10;
+
     private E[] elements;
     private int size;
     private int modCount;
 
-    private static final int defaultCapacity = 10;
-
     public MyArrayList() {
         //noinspection unchecked
-        elements = (E[]) new Object[defaultCapacity];
+        elements = (E[]) new Object[DEFAULT_CAPACITY];
     }
 
     public MyArrayList(Collection<? extends E> c) {
@@ -38,7 +39,7 @@ public class MyArrayList<E> implements List<E> {
     private void increaseCapacity() {
         if (elements.length == 0) {
             //noinspection unchecked
-            elements = (E[]) new Object[defaultCapacity];
+            elements = (E[]) new Object[DEFAULT_CAPACITY];
         } else {
             elements = Arrays.copyOf(elements, elements.length * 2);
         }
@@ -106,9 +107,12 @@ public class MyArrayList<E> implements List<E> {
             return (T[]) Arrays.copyOf(elements, size, a.getClass());
         }
 
-        // не понимаю, что здесь делать с варнингом
         //noinspection SuspiciousSystemArraycopy
         System.arraycopy(elements, 0, a, 0, size);
+
+        if (a.length > size) {
+            a[size] = null;
+        }
 
         return a;
     }
@@ -122,13 +126,7 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public boolean remove(Object o) {
-        if (indexOf(o) >= 0) {
-            remove(indexOf(o));
-
-            return true;
-        }
-
-        return false;
+        return indexOf(o) >= 0;
     }
 
     @Override
@@ -144,15 +142,17 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        addAll(size, c);
-
-        return true;
+        return addAll(size, c);
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Индекс должен быть >= 0 и <= " + size + "; индекс: " + index);
+        }
+
+        if (c.size() == 0) {
+            return false;
         }
 
         ensureCapacity(size + c.size());
@@ -171,19 +171,26 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        for (Object element : c) {
-            //noinspection StatementWithEmptyBody
-            while (remove(element)) {
-                // что делать с ворнингом пустого цикла?
+        int i = 0;
+
+        int currentModCount = modCount;
+
+        while (i < size) {
+            if (c.contains(elements[i])) {
+                remove(i);
+            } else {
+                i++;
             }
         }
 
-        return true;
+        return currentModCount != modCount;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
         int i = 0;
+
+        int currentModCount = modCount;
 
         while (i < size) {
             if (!c.contains(elements[i])) {
@@ -193,14 +200,16 @@ public class MyArrayList<E> implements List<E> {
             }
         }
 
-        return true;
+        return currentModCount != modCount;
     }
 
     @Override
     public void clear() {
-        for (int i = 0; i < size; i++) {
-            elements[i] = null;
+        if (size == 0) {
+            return;
         }
+
+        Arrays.fill(elements, null);
 
         size = 0;
         modCount++;
@@ -245,7 +254,7 @@ public class MyArrayList<E> implements List<E> {
     public E remove(int index) {
         checkIndex(index);
 
-        E removedElement = get(index);
+        E removedElement = elements[index];
 
         System.arraycopy(elements, index + 1, elements, index, size - index - 1);
 
@@ -259,18 +268,8 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        if (o == null) {
-            for (int i = 0; i < size; i++) {
-                if (elements[i] == null) {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
         for (int i = 0; i < size; i++) {
-            if (o.equals(elements[i])) {
+            if (Objects.equals(o, elements[i])) {
                 return i;
             }
         }
@@ -280,24 +279,15 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public int lastIndexOf(Object o) {
-        if (o == null) {
-            for (int i = size - 1; i >= 0; i--) {
-                if (elements[i] == null) {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
         for (int i = size - 1; i >= 0; i--) {
-            if (o.equals(elements[i])) {
+            if (Objects.equals(o, elements[i])) {
                 return i;
             }
         }
 
         return -1;
     }
+
 
     public void ensureCapacity(int capacity) {
         if (elements.length < capacity) {
