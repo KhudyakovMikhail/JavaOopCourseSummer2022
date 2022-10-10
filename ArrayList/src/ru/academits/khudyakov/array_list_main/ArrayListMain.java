@@ -1,10 +1,10 @@
 package ru.academits.khudyakov.array_list_main;
 
-import ru.academits.khudyakov.array_list.MyArrayList;
+import ru.academits.khudyakov.array_list.ArrayList;
 
-public class MyArrayListMain {
+public class ArrayListMain {
     public static void main(String[] args) {
-        MyArrayList<Integer> list1 = new MyArrayList<>(0);
+        ArrayList<Integer> list1 = new ArrayList<>(0);
 
         list1.add(0);
         list1.add(1);
@@ -14,13 +14,13 @@ public class MyArrayListMain {
 
         System.out.println("Список 1: " + list1);
 
-        MyArrayList<Integer> list2 = new MyArrayList<>(list1);
+        ArrayList<Integer> list2 = new ArrayList<>(list1);
 
         list2.addAll(2, list1);
 
         System.out.println("Список 2: " + list2);
 
-        MyArrayList<Integer> list3 = new MyArrayList<>();
+        ArrayList<Integer> list3 = new ArrayList<>();
 
         list3.add(2);
         list3.add(3);

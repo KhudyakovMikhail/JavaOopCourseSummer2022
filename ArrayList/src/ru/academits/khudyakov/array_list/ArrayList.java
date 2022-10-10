@@ -9,25 +9,25 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-public class MyArrayList<E> implements List<E> {
+public class ArrayList<E> implements List<E> {
     private static final int DEFAULT_CAPACITY = 10;
 
     private E[] elements;
     private int size;
     private int modCount;
 
-    public MyArrayList() {
+    public ArrayList() {
         //noinspection unchecked
         elements = (E[]) new Object[DEFAULT_CAPACITY];
     }
 
-    public MyArrayList(Collection<? extends E> c) {
+    public ArrayList(Collection<? extends E> c) {
         //noinspection unchecked
         elements = (E[]) c.toArray();
         size = c.size();
     }
 
-    public MyArrayList(int capacity) {
+    public ArrayList(int capacity) {
         if (capacity < 0) {
             throw new IllegalArgumentException("Вместимость должна быть >= 0, вместимость: " + capacity);
         }
@@ -68,7 +68,7 @@ public class MyArrayList<E> implements List<E> {
 
     private class MyListIterator implements Iterator<E> {
         private int currentIndex = -1;
-        private final int currentModCount = modCount;
+        private final int initialModCount = modCount;
 
         @Override
         public boolean hasNext() {
@@ -81,7 +81,7 @@ public class MyArrayList<E> implements List<E> {
                 throw new NoSuchElementException("Список закончился");
             }
 
-            if (currentModCount != modCount) {
+            if (initialModCount != modCount) {
                 throw new ConcurrentModificationException("Во время прохода было изменение списка");
             }
 
@@ -126,7 +126,15 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public boolean remove(Object o) {
-        return indexOf(o) >= 0;
+        int elementIndex = indexOf(o);
+
+        if (elementIndex < 0) {
+            return false;
+        }
+
+        remove(elementIndex);
+
+        return true;
     }
 
     @Override
@@ -157,11 +165,13 @@ public class MyArrayList<E> implements List<E> {
 
         ensureCapacity(size + c.size());
 
-        //noinspection unchecked
-        E[] array = (E[]) c.toArray();
+        System.arraycopy(elements, index, elements, index + c.size(), size - index);
 
-        System.arraycopy(elements, index, elements, index + array.length, size - index);
-        System.arraycopy(array, 0, elements, index, array.length);
+        for (E element : c) {
+            elements[index] = element;
+
+            index++;
+        }
 
         size += c.size();
         modCount++;
@@ -209,7 +219,7 @@ public class MyArrayList<E> implements List<E> {
             return;
         }
 
-        Arrays.fill(elements, null);
+        Arrays.fill(elements, 0, size - 1, null);
 
         size = 0;
         modCount++;
@@ -288,7 +298,6 @@ public class MyArrayList<E> implements List<E> {
         return -1;
     }
 
-
     public void ensureCapacity(int capacity) {
         if (elements.length < capacity) {
             elements = Arrays.copyOf(elements, capacity);
@@ -302,7 +311,6 @@ public class MyArrayList<E> implements List<E> {
     }
 
     // Дальше не надо реализовывать, накидал UnsupportedOperations
-
     @Override
     public ListIterator<E> listIterator() {
         throw new UnsupportedOperationException();
