@@ -1,13 +1,6 @@
 package ru.academits.khudyakov.array_list;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 public class ArrayList<E> implements List<E> {
     private static final int DEFAULT_CAPACITY = 10;
@@ -66,7 +59,7 @@ public class ArrayList<E> implements List<E> {
         return indexOf(o) >= 0;
     }
 
-    private class MyListIterator implements Iterator<E> {
+    private class ListIterator implements Iterator<E> {
         private int currentIndex = -1;
         private final int initialModCount = modCount;
 
@@ -92,7 +85,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new MyListIterator();
+        return new ListIterator();
     }
 
     @Override
@@ -312,12 +305,12 @@ public class ArrayList<E> implements List<E> {
 
     // Дальше не надо реализовывать, накидал UnsupportedOperations
     @Override
-    public ListIterator<E> listIterator() {
+    public java.util.ListIterator<E> listIterator() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ListIterator<E> listIterator(int index) {
+    public java.util.ListIterator<E> listIterator(int index) {
         throw new UnsupportedOperationException();
     }
 
