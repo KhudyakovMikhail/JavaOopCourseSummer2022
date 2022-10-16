@@ -59,7 +59,7 @@ public class ArrayList<E> implements List<E> {
         return indexOf(o) >= 0;
     }
 
-    private class ListIterator implements Iterator<E> {
+    private class ArrayListIterator implements Iterator<E> {
         private int currentIndex = -1;
         private final int initialModCount = modCount;
 
@@ -85,7 +85,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new ListIterator();
+        return new ArrayListIterator();
     }
 
     @Override
@@ -152,7 +152,7 @@ public class ArrayList<E> implements List<E> {
             throw new IndexOutOfBoundsException("Индекс должен быть >= 0 и <= " + size + "; индекс: " + index);
         }
 
-        if (c.size() == 0) {
+        if (c.isEmpty()) {
             return false;
         }
 
@@ -160,10 +160,12 @@ public class ArrayList<E> implements List<E> {
 
         System.arraycopy(elements, index, elements, index + c.size(), size - index);
 
-        for (E element : c) {
-            elements[index] = element;
+        int insertIndex = index;
 
-            index++;
+        for (E element : c) {
+            elements[insertIndex] = element;
+
+            insertIndex++;
         }
 
         size += c.size();
@@ -212,7 +214,7 @@ public class ArrayList<E> implements List<E> {
             return;
         }
 
-        Arrays.fill(elements, 0, size - 1, null);
+        Arrays.fill(elements, 0, size, null);
 
         size = 0;
         modCount++;
