@@ -136,13 +136,12 @@ public class SinglyLinkedList<T> {
         SinglyLinkedList<T> listCopy = new SinglyLinkedList<>();
 
         listCopy.head = new ListItem<>(head.getData());
-        listCopy.count++;
+        listCopy.count = count;
 
-        for (ListItem<T> currentItem = head.getNext(), copiedListPointer = listCopy.head; currentItem != null; currentItem = currentItem.getNext(),  copiedListPointer = copiedListPointer.getNext()) {
+        for (ListItem<T> currentItem = head.getNext(), lastCopiedItem = listCopy.head;
+             currentItem != null; currentItem = currentItem.getNext(), lastCopiedItem = lastCopiedItem.getNext()) {
             ListItem<T> copiedItem = new ListItem<>(currentItem.getData());
-            copiedListPointer.setNext(copiedItem);
-
-            listCopy.count++;
+            lastCopiedItem.setNext(copiedItem);
         }
 
         return listCopy;
