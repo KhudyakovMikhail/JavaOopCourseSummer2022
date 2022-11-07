@@ -45,9 +45,14 @@ public class HashTable<E> implements Collection<E> {
         return true;
     }
 
+    // не придумал как сделать один return из последних веток
     @Override
     public boolean contains(Object o) {
         int index = getIndex(o);
+
+        if (lists[index] == null) {
+            return false;
+        }
 
         return lists[index].contains(o);
     }
@@ -122,7 +127,6 @@ public class HashTable<E> implements Collection<E> {
         return array;
     }
 
-    // Здесь не сделано
     @Override
     public <T> T[] toArray(T[] a) {
         Object[] array = toArray();
@@ -130,6 +134,13 @@ public class HashTable<E> implements Collection<E> {
         if (a.length < size()) {
             //noinspection unchecked
             return (T[]) Arrays.copyOf(array, size(), a.getClass());
+        }
+
+        //noinspection SuspiciousSystemArraycopy
+        System.arraycopy(array, 0, a, 0, size);
+
+        if (a.length > size) {
+            a[size] = null;
         }
 
         return a;
@@ -158,20 +169,20 @@ public class HashTable<E> implements Collection<E> {
             return false;
         }
 
-        if (!lists[index].remove(o)) {
-            return false;
-        }
-
-        lists[index].remove(o);
+        boolean isRemoved = lists[index].remove(o);
 
         if (lists[index].size() == 0) {
             lists[index] = null;
         }
 
-        size--;
-        modCount++;
+        if (isRemoved) {
+            size--;
+            modCount++;
 
-        return true;
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -200,20 +211,28 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
+        int currentModCount = modCount;
+
         for (Object o : c) {
-            remove(o);
+            while (contains(o)) {
+                remove(o);
+            }
         }
 
-        return true;
+        return currentModCount != modCount;
     }
 
-
-    // здесь не работает, пока не разобрался
     @Override
     public boolean retainAll(Collection<?> c) {
-        for (E t : this) {
-            if (!c.contains(t)) {
-                remove(t);
+        for (int i = 0; i < lists.length; i++) {
+            if (lists[i] == null) {
+                continue;
+            }
+
+            lists[i].retainAll(c);
+
+            if (lists[i].size() == 0) {
+                lists[i] = null;
             }
         }
 
