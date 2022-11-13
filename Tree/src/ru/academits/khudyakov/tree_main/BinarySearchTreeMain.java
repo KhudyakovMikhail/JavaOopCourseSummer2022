@@ -37,7 +37,5 @@ public class BinarySearchTreeMain {
         System.out.println("Обход дерева в глубину рекурсивно: ");
         binarySearchTree.visit(binarySearchTree.getRoot());
         System.out.println();
-
-
     }
 }

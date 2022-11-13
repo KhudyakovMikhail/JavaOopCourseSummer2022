@@ -1,24 +1,27 @@
 package ru.academits.khudyakov.tree;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Comparator;
 import java.util.LinkedList;
 
-public class BinarySearchTree<T extends Comparable<T>> {
+public class BinarySearchTree<T> {
+    private Comparator<? super T> comparator;
     private TreeNode<T> root;
     private int size;
 
     public BinarySearchTree() {
     }
 
-    public BinarySearchTree(Collection<? extends T> c) {
-        for (T element : c) {
-            add(element);
-        }
+    public BinarySearchTree(Comparator<? super T> comparator) {
+        this.comparator = comparator;
     }
 
     public int size() {
         return size;
+    }
+
+    public boolean isEmpty() {
+        return root == null;
     }
 
     public TreeNode<T> getRoot() {
@@ -38,24 +41,47 @@ public class BinarySearchTree<T extends Comparable<T>> {
         }
     }
 
-    private void add(T data, TreeNode<T> node) {
+    private void add(T data, TreeNode<T> parent) {
         TreeNode<T> newNode = new TreeNode<>(data);
 
-        if (data.compareTo(node.getData()) < 0) {
-            if (node.getLeft() == null) {
-                node.setLeft(newNode);
+        if (comparator == null) {
+            //noinspection unchecked
+            Comparable<? super T> addedData = (Comparable<? super T>) data;
 
-                size++;
+            if (addedData.compareTo(parent.getData()) < 0) {
+                if (parent.getLeft() == null) {
+                    parent.setLeft(newNode);
+
+                    size++;
+                } else {
+                    add(data, parent.getLeft());
+                }
             } else {
-                add(data, node.getLeft());
+                if (parent.getRight() == null) {
+                    parent.setRight(newNode);
+
+                    size++;
+                } else {
+                    add(data, parent.getRight());
+                }
             }
         } else {
-            if (node.getRight() == null) {
-                node.setRight(newNode);
+            if (comparator.compare(data, parent.getData()) < 0) {
+                if (parent.getLeft() == null) {
+                    parent.setLeft(newNode);
 
-                size++;
+                    size++;
+                } else {
+                    add(data, parent.getLeft());
+                }
             } else {
-                add(data, node.getRight());
+                if (parent.getRight() == null) {
+                    parent.setRight(newNode);
+
+                    size++;
+                } else {
+                    add(data, parent.getRight());
+                }
             }
         }
     }
@@ -69,21 +95,42 @@ public class BinarySearchTree<T extends Comparable<T>> {
             return false;
         }
 
-        TreeNode<T> current = root;
+        TreeNode<T> currentItem = root;
 
-        while (!data.equals(current.getData())) {
-            if (data.compareTo(current.getData()) < 0) {
-                if (current.getLeft() == null) {
-                    return false;
+        if (comparator == null) {
+            //noinspection unchecked
+            Comparable<? super T> comparableData = (Comparable<? super T>) data;
+
+            while (!comparableData.equals(currentItem.getData())) {
+                if (comparableData.compareTo(currentItem.getData()) < 0) {
+                    if (currentItem.getLeft() == null) {
+                        return false;
+                    }
+
+                    currentItem = currentItem.getLeft();
+                } else if (comparableData.compareTo(currentItem.getData()) > 0) {
+                    if (currentItem.getRight() == null) {
+                        return false;
+                    }
+
+                    currentItem = currentItem.getRight();
                 }
+            }
+        } else {
+            while (!data.equals(currentItem.getData())) {
+                if (comparator.compare(data, currentItem.getData()) < 0) {
+                    if (currentItem.getLeft() == null) {
+                        return false;
+                    }
 
-                current = current.getLeft();
-            } else if (data.compareTo(current.getData()) > 0){
-                if (current.getRight() == null) {
-                    return  false;
+                    currentItem = currentItem.getLeft();
+                } else if (comparator.compare(data, currentItem.getData()) > 0) {
+                    if (currentItem.getRight() == null) {
+                        return false;
+                    }
+
+                    currentItem = currentItem.getRight();
                 }
-
-                current = current.getRight();
             }
         }
 

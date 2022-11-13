@@ -1,6 +1,6 @@
 package ru.academits.khudyakov.tree;
 
-class TreeNode<T extends Comparable<T>> {
+class TreeNode<T> {
     private TreeNode<T> left;
     private TreeNode<T> right;
     private T data;
