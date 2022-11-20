@@ -62,7 +62,7 @@ public class HashTable<E> implements Collection<E> {
 
         @Override
         public boolean hasNext() {
-            return passedElementsCount < size();
+            return passedElementsCount < size;
         }
 
         @Override
@@ -75,19 +75,19 @@ public class HashTable<E> implements Collection<E> {
                 throw new ConcurrentModificationException("Во время прохода было изменение коллекции");
             }
 
-            while (lists[currentListIndex] == null || lists[currentListIndex].size() == 0) {
+            while (lists[currentListIndex] == null || lists[currentListIndex].isEmpty()) {
                 currentListIndex++;
             }
 
-            if (lists[currentListIndex].size() - 1 == currentElementIndex) {
+            if (lists[currentListIndex].size() - 1 != currentElementIndex) {
+                currentElementIndex++;
+            } else {
                 currentListIndex++;
                 currentElementIndex = 0;
 
                 while (lists[currentListIndex] == null || lists[currentListIndex].size() == 0) {
                     currentListIndex++;
                 }
-            } else {
-                currentElementIndex++;
             }
 
             passedElementsCount++;
@@ -103,7 +103,7 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public Object[] toArray() {
-        Object[] array = new Object[size()];
+        Object[] array = new Object[size];
         int insertIndex = 0;
 
         for (E element : this) {
@@ -120,7 +120,7 @@ public class HashTable<E> implements Collection<E> {
 
         if (a.length < size) {
             //noinspection unchecked
-            return (T[]) Arrays.copyOf(array, size(), a.getClass());
+            return (T[]) Arrays.copyOf(array, size, a.getClass());
         }
 
         //noinspection SuspiciousSystemArraycopy
@@ -197,9 +197,8 @@ public class HashTable<E> implements Collection<E> {
         int currentModCount = modCount;
 
         for (Object o : c) {
-            do {
-                remove(o);
-            } while (remove(o));
+            //noinspection StatementWithEmptyBody
+            while (remove(o)) ;
         }
 
         return currentModCount != modCount;
@@ -208,7 +207,7 @@ public class HashTable<E> implements Collection<E> {
     @Override
     public boolean retainAll(Collection<?> c) {
         int oldSize = size;
-        int newSize = 0;
+        size = 0;
 
         for (ArrayList<E> list : lists) {
             if (list == null) {
@@ -216,15 +215,14 @@ public class HashTable<E> implements Collection<E> {
             }
 
             list.retainAll(c);
-            newSize += list.size();
+            size += list.size();
         }
 
-        if (oldSize != newSize) {
+        if (oldSize != size) {
             modCount++;
-            size = newSize;
         }
 
-        return oldSize != newSize;
+        return oldSize != size;
     }
 
     @Override
