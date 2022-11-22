@@ -29,13 +29,13 @@ public class BinarySearchTreeMain {
         System.out.println("Число узлов дерева: " + binarySearchTree.size());
 
         System.out.println("Обход дерева в ширину: ");
-        binarySearchTree.breadthTravers();
+        binarySearchTree.traverseInBreadth(integer -> System.out.print(integer + " "));
 
         System.out.println("Обход дерева в глубину: ");
-        binarySearchTree.depthTravers();
+        binarySearchTree.traverseInDepth(integer -> System.out.print(integer + " "));
 
         System.out.println("Обход дерева в глубину рекурсивно: ");
-        binarySearchTree.visit(binarySearchTree.getRoot());
+        binarySearchTree.traverseInDepthRecursive(integer -> System.out.print(integer + " "));
         System.out.println();
     }
 }

@@ -3,13 +3,16 @@ package ru.academits.khudyakov.tree;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.Queue;
+import java.util.function.Consumer;
 
 public class BinarySearchTree<T> {
-    private Comparator<? super T> comparator;
+    private final Comparator<? super T> comparator;
     private TreeNode<T> root;
     private int size;
 
     public BinarySearchTree() {
+        comparator = null;
     }
 
     public BinarySearchTree(Comparator<? super T> comparator) {
@@ -24,113 +27,81 @@ public class BinarySearchTree<T> {
         return root == null;
     }
 
-    public TreeNode<T> getRoot() {
-        return root;
+    private int compare(T data1, T data2) {
+        if (comparator != null) {
+            return comparator.compare(data1, data2);
+        }
+
+        if (data1 == null && data2 == null) {
+            return 0;
+        }
+
+        if (data1 == null) {
+            return -1;
+        }
+
+        if (data2 == null) {
+            return 1;
+        }
+
+        //noinspection unchecked
+        Comparable<? super T> comparableData1 = (Comparable<? super T>) data1;
+
+        return comparableData1.compareTo(data2);
     }
 
     public void add(T data) {
-        if (data == null) {
-            throw new NullPointerException("Нельзя вставить null");
-        }
-
         if (root == null) {
             root = new TreeNode<>(data);
             size++;
         } else {
-            add(data, root);
-        }
-    }
+            TreeNode<T> newNode = new TreeNode<>(data);
+            TreeNode<T> currentNode = root;
 
-    private void add(T data, TreeNode<T> parent) {
-        TreeNode<T> newNode = new TreeNode<>(data);
-
-        if (comparator == null) {
-            //noinspection unchecked
-            Comparable<? super T> addedData = (Comparable<? super T>) data;
-
-            if (addedData.compareTo(parent.getData()) < 0) {
-                if (parent.getLeft() == null) {
-                    parent.setLeft(newNode);
-
+            do {
+                if (compare(data, currentNode.getData()) < 0) {
+                    if (currentNode.getLeft() != null) {
+                        currentNode = currentNode.getLeft();
+                        continue;
+                    }
+                    currentNode.setLeft(newNode);
                     size++;
-                } else {
-                    add(data, parent.getLeft());
+                    break;
                 }
-            } else {
-                if (parent.getRight() == null) {
-                    parent.setRight(newNode);
 
+                if (compare(data, currentNode.getData()) >= 0) {
+                    if (currentNode.getRight() != null) {
+                        currentNode = currentNode.getRight();
+                        continue;
+                    }
+                    currentNode.setRight(newNode);
                     size++;
-                } else {
-                    add(data, parent.getRight());
+                    break;
                 }
-            }
-        } else {
-            if (comparator.compare(data, parent.getData()) < 0) {
-                if (parent.getLeft() == null) {
-                    parent.setLeft(newNode);
-
-                    size++;
-                } else {
-                    add(data, parent.getLeft());
-                }
-            } else {
-                if (parent.getRight() == null) {
-                    parent.setRight(newNode);
-
-                    size++;
-                } else {
-                    add(data, parent.getRight());
-                }
-            }
+            } while (currentNode != null);
         }
     }
 
     public boolean contains(T data) {
-        if (data == null) {
-            throw new NullPointerException("Нельзя найти null");
-        }
-
         if (root == null) {
             return false;
         }
 
         TreeNode<T> currentItem = root;
 
-        if (comparator == null) {
-            //noinspection unchecked
-            Comparable<? super T> comparableData = (Comparable<? super T>) data;
-
-            while (!comparableData.equals(currentItem.getData())) {
-                if (comparableData.compareTo(currentItem.getData()) < 0) {
-                    if (currentItem.getLeft() == null) {
-                        return false;
-                    }
-
-                    currentItem = currentItem.getLeft();
-                } else if (comparableData.compareTo(currentItem.getData()) > 0) {
-                    if (currentItem.getRight() == null) {
-                        return false;
-                    }
-
-                    currentItem = currentItem.getRight();
+        while (compare(data, currentItem.getData()) != 0) {
+            if (compare(data, currentItem.getData()) < 0) {
+                if (currentItem.getLeft() == null) {
+                    return false;
                 }
-            }
-        } else {
-            while (!data.equals(currentItem.getData())) {
-                if (comparator.compare(data, currentItem.getData()) < 0) {
-                    if (currentItem.getLeft() == null) {
-                        return false;
-                    }
 
-                    currentItem = currentItem.getLeft();
-                } else if (comparator.compare(data, currentItem.getData()) > 0) {
-                    if (currentItem.getRight() == null) {
-                        return false;
-                    }
-
-                    currentItem = currentItem.getRight();
+                currentItem = currentItem.getLeft();
+            } else if (compare(data, currentItem.getData()) > 0) {
+                if (currentItem.getRight() == null) {
+                    return false;
                 }
+
+                currentItem = currentItem.getRight();
             }
         }
 
@@ -141,41 +112,45 @@ public class BinarySearchTree<T> {
         return false;
     }
 
-    public void breadthTravers() {
-        LinkedList<TreeNode<T>> queue = new LinkedList<>();
+    public void traverseInBreadth(Consumer<T> consumer) {
+        if (root == null) {
+            return;
+        }
 
-        queue.addFirst(root);
+        Queue<TreeNode<T>> queue = new LinkedList<>();
+
+        queue.add(root);
 
         while (!queue.isEmpty()) {
-            TreeNode<T> current = queue.getLast();
+            TreeNode<T> current = queue.remove();
 
-            queue.removeLast();
-
-            System.out.print(current.getData() + " ");
+            consumer.accept(current.getData());
 
             if (current.getLeft() != null) {
-                queue.addFirst(current.getLeft());
+                queue.add(current.getLeft());
             }
 
             if (current.getRight() != null) {
-                queue.addFirst(current.getRight());
+                queue.add(current.getRight());
             }
         }
 
         System.out.println();
     }
 
-    public void depthTravers() {
+    public void traverseInDepth(Consumer<T> consumer) {
+        if (root == null) {
+            return;
+        }
+
         ArrayList<TreeNode<T>> stack = new ArrayList<>();
 
         stack.add(root);
 
         while (!stack.isEmpty()) {
-            TreeNode<T> current = stack.get(stack.size() - 1);
+            TreeNode<T> current = stack.remove(stack.size() - 1);
 
-            stack.remove(stack.size() - 1);
-
-            System.out.print(current.getData() + " ");
+            consumer.accept(current.getData());
 
             if (current.getRight() != null) {
                 stack.add(current.getRight());
@@ -189,15 +164,23 @@ public class BinarySearchTree<T> {
         System.out.println();
     }
 
-    public void visit(TreeNode<T> node) {
-        System.out.print(node.getData() + " ");
+    public void traverseInDepthRecursive(Consumer<T> consumer) {
+        if (root == null) {
+            return;
+        }
+
+        visit(root, consumer);
+    }
+
+    private void visit(TreeNode<T> node, Consumer<T> consumer) {
+        consumer.accept(node.getData());
 
         if (node.getLeft() != null) {
-            visit(node.getLeft());
+            visit(node.getLeft(), consumer);
         }
 
         if (node.getRight() != null) {
-            visit(node.getRight());
+            visit(node.getRight(), consumer);
         }
     }
 }
