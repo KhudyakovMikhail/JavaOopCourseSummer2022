@@ -85,7 +85,7 @@ public class HashTable<E> implements Collection<E> {
                 currentListIndex++;
                 currentElementIndex = 0;
 
-                while (lists[currentListIndex] == null || lists[currentListIndex].size() == 0) {
+                while (lists[currentListIndex] == null || lists[currentListIndex].isEmpty()) {
                     currentListIndex++;
                 }
             }
