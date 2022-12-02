@@ -20,13 +20,17 @@ public class BinarySearchTreeMain {
         binarySearchTree.add(17);
         binarySearchTree.add(25);
 
+        System.out.println(binarySearchTree.remove(50));
+
         System.out.println("Число узлов дерева: " + binarySearchTree.size());
 
         System.out.println("Обход дерева в ширину: ");
         binarySearchTree.traverseInBreadth(integer -> System.out.print(integer + " "));
+        System.out.println();
 
         System.out.println("Обход дерева в глубину: ");
         binarySearchTree.traverseInDepth(integer -> System.out.print(integer + " "));
+        System.out.println();
 
         System.out.println("Обход дерева в глубину рекурсивно: ");
         binarySearchTree.traverseInDepthRecursive(integer -> System.out.print(integer + " "));
