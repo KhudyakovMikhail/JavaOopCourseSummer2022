@@ -20,7 +20,7 @@ public class BinarySearchTreeMain {
         binarySearchTree.add(17);
         binarySearchTree.add(25);
 
-        System.out.println(binarySearchTree.remove(50));
+        System.out.println(binarySearchTree.remove(2000));
 
         System.out.println("Число узлов дерева: " + binarySearchTree.size());
 

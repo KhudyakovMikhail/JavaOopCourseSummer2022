@@ -143,9 +143,10 @@ public class BinarySearchTree<T> {
 
         if (currentItem.getRight() != null) {
             currentItemParent.setLeft(currentItem.getRight());
+        } else {
+            currentItemParent.setLeft(null);
         }
 
-        currentItemParent.setLeft(null);
         currentItem.setLeft(root.getLeft());
         currentItem.setRight(root.getRight());
         root = currentItem;
@@ -166,13 +167,29 @@ public class BinarySearchTree<T> {
         TreeNode<T> removedItemParent = root;
         TreeNode<T> removedItem = compare(data, root.getData()) < 0 ? root.getLeft() : root.getRight();
 
-        while (compare(data, removedItem.getData()) != 0) {
-            removedItemParent = removedItem;
+        while (true) {
+            if (removedItem == null) {
+                return false;
+            }
 
-            if (compare(data, removedItem.getData()) < 0) {
+            int compareResult = compare(data, removedItem.getData());
+
+            if (compareResult < 0) {
+                if (removedItem.getLeft() == null) {
+                    return false;
+                }
+
+                removedItemParent = removedItem;
                 removedItem = removedItem.getLeft();
-            } else {
+            } else if (compareResult > 0) {
+                if (removedItem.getRight() == null) {
+                    return false;
+                }
+
+                removedItemParent = removedItem;
                 removedItem = removedItem.getRight();
+            } else {
+                break;
             }
         }
 
@@ -182,6 +199,8 @@ public class BinarySearchTree<T> {
             } else {
                 removedItemParent.setRight(null);
             }
+
+            size--;
 
             return true;
         }
@@ -194,6 +213,8 @@ public class BinarySearchTree<T> {
             } else {
                 removedItemParent.setRight(removedItemChild);
             }
+
+            size--;
 
             return true;
         }
@@ -209,6 +230,8 @@ public class BinarySearchTree<T> {
             } else {
                 removedItemParent.setRight(minimumLeftChildParent);
             }
+
+            size--;
 
             return true;
         }
@@ -232,6 +255,8 @@ public class BinarySearchTree<T> {
 
         minimumLeftChild.setLeft(removedItem.getLeft());
         minimumLeftChild.setRight(removedItem.getRight());
+
+        size--;
 
         return true;
     }
